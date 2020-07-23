@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  develop:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: ${COMPOSE_PROJECT_NAME}_develop
+    stdin_open: true
+    tty: true
+    volumes:
+      - ivy2:/root/.ivy2
+      - sbt:/root/.sbt
+      - workspace:/root/workspace
+
+volumes:
+  ivy2:
+  sbt:
+  workspace: # workspace files

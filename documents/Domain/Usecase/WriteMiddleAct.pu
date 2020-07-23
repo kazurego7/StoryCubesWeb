@@ -1,0 +1,17 @@
+@startuml MakeMiddleAct
+
+left to right direction
+
+actor user
+
+rectangle WriteMiddleAct {
+    user -- (chooseDice)
+    user -- (writeSentence)
+    user -- (addIllustration)    
+    user -- (postAct)
+    (decideTitle) ..> (postAct) : include
+    (writeSentence) ..> (postAct) : include
+    (addIllustration) ..> (postAct) : include
+}
+
+@enduml

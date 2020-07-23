@@ -1,0 +1,65 @@
+@startuml er
+skinparam linetype ortho
+hide empty members
+
+
+entity tbl_catalog {
+    * id
+    act_title
+    act_summary
+}
+
+entity tbl_act_tree_paths{
+    * self_act_id
+    * ancestor_act_id
+}
+
+entity tbl_act {
+    * id
+    catalog_id
+    story_sentence
+    story_illustration_url
+}
+
+entity tbl_dice {
+    * id
+    act_id
+    is_used
+}
+
+entity tbl_symbol {
+    * id
+    picture_url
+    dice_id
+}
+
+entity tbl_symbol_explanation {
+    explanation
+    symbol_id
+}
+
+entity mst_basic_dice {
+    * id
+}
+
+entity mst_basic_symbol {
+    * id
+    picture_url
+    dice_id
+}
+
+entity mst_basic_symbol_explanation {
+    explanation
+    symbol_id
+}
+
+tbl_catalog |o--o{ tbl_act
+tbl_act_tree_paths }o--o| tbl_act
+tbl_act |o--o{ tbl_dice
+tbl_dice |o--o{ tbl_symbol
+tbl_symbol |o--o{ tbl_symbol_explanation
+
+mst_basic_dice |o--o{ mst_basic_symbol
+mst_basic_symbol |o--o{ mst_basic_symbol_explanation
+
+@enduml

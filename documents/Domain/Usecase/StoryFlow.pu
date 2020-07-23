@@ -1,0 +1,33 @@
+@startuml Main
+
+actor firstWriter as a1
+
+rectangle FirstAct {
+    a1 -r- (writeFirstAct)
+    a1 -r- (readFirstAct)
+    a1 -r- (partWithFirstAct)
+
+    (showFirstActs) ..> (writeFirstAct) :invoke
+    (writeFirstAct) ..> (partWithFirstAct):invoke
+    (showFirstActs) ..> (readFirstAct) : invoke
+}
+
+rectangle MiddleAct {
+    a1 -r- (readMiddleAct)
+
+    (readFirstAct) .-d-.> (showMiddleActs) : invoke
+    (showMiddleActs) ..> (writeMiddleAct) : invoke
+    (writeMiddleAct) ..> (partWithMiddleAct) : invoke
+    (showMiddleActs) ..> (readMiddleAct) : invoke
+}
+rectangle LastAct {
+    a1 -r- (readLastAct)
+
+    (readMiddleAct) .-d-.> (showLastActs) : invoke
+    (showLastActs) ..> (writeLastAct) : invoke
+    (writeLastAct) ..> (partWithLastAct) : invoke
+    (showLastActs) ..> (readLastAct) : invoke
+}
+
+
+@enduml

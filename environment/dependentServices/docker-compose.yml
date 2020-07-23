@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:12.3
+    restart: always
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: storycubes
+      POSTGRES_USER: storycubes
+      POSTGRES_DB: storycubes
+
+volumes:
+  postgresql:
