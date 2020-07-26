@@ -7,6 +7,12 @@ target
 /.settings
 /RUNNING_PID
 
+ # Generated Metals (Scala Language Server) files
+ # Reference: https://scalameta.org/metals/
+.metals/
+.bloop/
+project/metals.sbt
+
 # Ignore Play! working directory #
 bin/
 /db
@@ -23,9 +29,3 @@ server.pid
 *.eml
 /dist/
 .cache
-
-# Generated Metals (Scala Language Server) files
-# Reference: https://scalameta.org/metals/
-.metals/
-.bloop/
-project/metals.sbt
