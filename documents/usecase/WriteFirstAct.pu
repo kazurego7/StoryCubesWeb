@@ -1,0 +1,20 @@
+@startuml FirstAct
+
+left to right direction
+
+actor user
+
+rectangle FirstAct {
+    user -- (writeFirstAct)
+    (writeFirstAct) ..> (chooseDice) : invoke
+    (writeFirstAct) ..> (decideTitle) : invoke
+    (writeFirstAct) ..> (writeSentence) : invoke
+    (writeFirstAct) ..> (addIllustration) : invoke
+    (writeFirstAct) ..> (rollDice) : invoke
+    (chooseDice) ..> (postAct) : precedes
+    (decideTitle) ..> (postAct) : precedes
+    (writeSentence) ..> (postAct) : precedes
+    (rollDice) ..> (postAct) : precedes
+}
+
+@enduml

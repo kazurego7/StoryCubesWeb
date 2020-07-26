@@ -1,0 +1,55 @@
+@startuml FirstAct
+
+class Sentence {
+    - String
+    - checkSizeLimit()
+}
+
+class Title {
+    - String
+    - checkSizeLimit()
+}
+
+class DiceId {
+    - Long
+}
+
+interface DiceRepository {
+    + findDice(diceId)
+}
+
+class Dice {
+    - DiceId
+    - List<Symbol>
+    - faceSymbolId
+    + changeFaceSymbolById()
+    + getFaceSymbol()
+    + getSymbolIds()
+    + getRandomFaceSymbolExplanation()
+}
+
+class SymbolId {
+    - Long
+}
+
+class Symbol {
+    - SymbolId
+    - DiceId
+    - List<String> explanation
+    - Array<Byte> picture
+}
+
+interface FirstActRepository{
+    + store(FirstAct)
+}
+
+class FirstAct {
+    - List<Dice>
+    - Title
+    - Sentence
+    - checkDiceDuplicate()
+    - checkUseDiceCount()
+    - checkNotUsedDiceCount()
+}
+
+@enduml
