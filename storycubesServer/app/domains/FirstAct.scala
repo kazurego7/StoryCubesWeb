@@ -31,14 +31,10 @@ object FirstAct {
   }
 }
 
-case class ActId(value: Long)
-
 case class FirstActSymbols private (
     useSymbols: FirstActUsesSymbols,
     unusedSymbols: FirstActUnusedSymbols
 )
-case class FirstActUsesSymbols(symbols: List[Symbol])
-case class FirstActUnusedSymbols(symbols: List[Symbol])
 
 object FirstActSymbols {
   def apply(
@@ -61,58 +57,18 @@ object FirstActSymbols {
   }
 }
 
+case class FirstActUsesSymbols(symbols: List[Symbol])
+
 object FirstActUsesSymbols extends ActSymbolsGroup[FirstActUsesSymbols] {
   val diceCount: Int = 3
   def apply(symbols: List[Symbol]): Either[Error, FirstActUsesSymbols] =
     validate((_) => new FirstActUsesSymbols(symbols), symbols)
 }
 
+case class FirstActUnusedSymbols(symbols: List[Symbol])
+
 object FirstActUnusedSymbols extends ActSymbolsGroup[FirstActUnusedSymbols] {
   val diceCount: Int = 6
   def apply(symbols: List[Symbol]): Either[Error, FirstActUnusedSymbols] =
     validate((_) => new FirstActUnusedSymbols(symbols), symbols)
-}
-
-case class ActTitle(value: String)
-
-object ActTitle {
-  def apply(
-      value: String
-  ): Either[Error, ActTitle] = {
-    if (value.length > 20) {
-      Left(Error.OverMaxSize)
-    } else if (value.length < 1) {
-      Left(Error.UnderMinSize)
-    } else {
-      Right(new ActTitle(value))
-    }
-  }
-
-  sealed trait Error
-  object Error {
-    case object OverMaxSize extends Error
-    case object UnderMinSize extends Error
-  }
-}
-
-case class ActSentence(value: String)
-
-object ActSentence {
-  def apply(
-      value: String
-  ): Either[Error, ActTitle] = {
-    if (value.length > 400) {
-      Left(Error.OverMaxSize)
-    } else if (value.length < 1) {
-      Left(Error.UnderMinSize)
-    } else {
-      Right(new ActTitle(value))
-    }
-  }
-
-  sealed trait Error
-  object Error {
-    case object OverMaxSize extends Error
-    case object UnderMinSize extends Error
-  }
 }
