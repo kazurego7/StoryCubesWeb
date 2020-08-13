@@ -1,5 +1,7 @@
 package domains
 
+import domains.ActSentence.Error.UnderMinSize
+
 case class FirstAct private (
     actId: ActId,
     useSymbolIllusts: List[SymbolIllust],
@@ -9,26 +11,22 @@ case class FirstAct private (
 )
 
 object FirstAct {
-  def create(
+  def apply(
       actId: ActId,
       allSymbols: FirstActSymbols,
       actTitle: ActTitle,
       actSentence: ActSentence
-  ): Either[Error, FirstAct] = {
-    val useSymbolIllusts = allSymbols.useSymbols.symbols.map({
-      case (_, symbol) => symbol.illust
-    })
-    val unusedSymbolIllusts = allSymbols.unusedSymbols.symbols.map({
-      case (_, symbol) => symbol.illust
-    })
-    Right(
-      FirstAct(
-        actId,
-        useSymbolIllusts,
-        unusedSymbolIllusts,
-        actTitle,
-        actSentence
-      )
+  ): FirstAct = {
+    val useSymbolIllusts =
+      allSymbols.useSymbols.symbols.map(symbol => symbol.illust)
+    val unusedSymbolIllusts =
+      allSymbols.unusedSymbols.symbols.map(symbol => symbol.illust)
+    new FirstAct(
+      actId,
+      useSymbolIllusts,
+      unusedSymbolIllusts,
+      actTitle,
+      actSentence
     )
   }
 }
@@ -36,24 +34,25 @@ object FirstAct {
 case class ActId(value: Long)
 
 case class FirstActSymbols private (
-    useSymbols: UsesSymbols,
-    unusedSymbols: UnusedSymbols
+    useSymbols: FirstActUsesSymbols,
+    unusedSymbols: FirstActUnusedSymbols
 )
-case class UsesSymbols(symbols: List[(DiceId, Symbol)])
-case class UnusedSymbols(symbols: List[(DiceId, Symbol)])
+case class FirstActUsesSymbols(symbols: List[Symbol])
+case class FirstActUnusedSymbols(symbols: List[Symbol])
 
 object FirstActSymbols {
-  def create(
-      useSymbols: UsesSymbols,
-      unusedSymbols: UnusedSymbols
+  def apply(
+      useSymbols: FirstActUsesSymbols,
+      unusedSymbols: FirstActUnusedSymbols
   ): Either[Error, FirstActSymbols] = {
-    val useDiceId = useSymbols.symbols.map({ case (id, _) => id })
-    val unusedDiceId = unusedSymbols.symbols.map({ case (id, _) => id })
+    val useDiceId = useSymbols.symbols.map(symbol => symbol.diceId)
+    val unusedDiceId = unusedSymbols.symbols.map(symbol => symbol.diceId)
     val diceId = useDiceId ++ unusedDiceId
     if (diceId.length != diceId.distinct.length) {
       Left(Error.DiceDuplicated)
+    } else {
+      Right(new FirstActSymbols(useSymbols, unusedSymbols))
     }
-    Right(FirstActSymbols(useSymbols, unusedSymbols))
   }
 
   sealed trait Error
@@ -62,22 +61,22 @@ object FirstActSymbols {
   }
 }
 
-object UsesSymbols extends ActSymbolGroup[UsesSymbols] {
+object FirstActUsesSymbols extends ActSymbolsGroup[FirstActUsesSymbols] {
   val diceCount: Int = 3
-  def create(symbols: List[(DiceId, Symbol)]): Either[Error, UsesSymbols] =
-    valid((_) => UsesSymbols(symbols), symbols)
+  def apply(symbols: List[Symbol]): Either[Error, FirstActUsesSymbols] =
+    validate((_) => new FirstActUsesSymbols(symbols), symbols)
 }
 
-object UnusedSymbols extends ActSymbolGroup[UnusedSymbols] {
+object FirstActUnusedSymbols extends ActSymbolsGroup[FirstActUnusedSymbols] {
   val diceCount: Int = 6
-  def create(symbols: List[(DiceId, Symbol)]): Either[Error, UnusedSymbols] =
-    valid((_) => UnusedSymbols(symbols), symbols)
+  def apply(symbols: List[Symbol]): Either[Error, FirstActUnusedSymbols] =
+    validate((_) => new FirstActUnusedSymbols(symbols), symbols)
 }
 
 case class ActTitle(value: String)
 
 object ActTitle {
-  def create(
+  def apply(
       value: String
   ): Either[Error, ActTitle] = {
     if (value.length > 20) {
@@ -85,7 +84,7 @@ object ActTitle {
     } else if (value.length < 1) {
       Left(Error.UnderMinSize)
     } else {
-      Right(ActTitle(value))
+      Right(new ActTitle(value))
     }
   }
 
@@ -99,7 +98,7 @@ object ActTitle {
 case class ActSentence(value: String)
 
 object ActSentence {
-  def create(
+  def apply(
       value: String
   ): Either[Error, ActTitle] = {
     if (value.length > 400) {
@@ -107,7 +106,7 @@ object ActSentence {
     } else if (value.length < 1) {
       Left(Error.UnderMinSize)
     } else {
-      Right(ActTitle(value))
+      Right(new ActTitle(value))
     }
   }
 

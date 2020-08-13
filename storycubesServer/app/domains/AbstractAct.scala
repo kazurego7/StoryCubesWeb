@@ -1,10 +1,10 @@
 package domains
 
-trait ActSymbolGroup[T] {
+trait ActSymbolsGroup[T] {
   val diceCount: Int
-  def valid(
+  def validate(
       constructor: Unit => T,
-      symbols: List[(DiceId, Symbol)]
+      symbols: List[Symbol]
   ): Either[Error, T] = {
     if (symbols.length != diceCount) {
       Left(Error.DiceCountOver)

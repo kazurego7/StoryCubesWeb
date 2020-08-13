@@ -3,7 +3,8 @@ package domains
 case class SymbolId(value: Long)
 
 case class Symbol(
-    id: SymbolId,
+    symbolId: SymbolId,
+    diceId: DiceId,
     illust: SymbolIllust
 )
 
