@@ -1,11 +1,12 @@
 package domains
 
-case class SymbolId(value: Long)
+import utils._
 
 case class Symbol(
-    symbolId: SymbolId,
-    diceId: DiceId,
-    illust: SymbolIllust
+    symbolId: Symbol.Id,
+    illust: Symbol.Illust
 )
 
-case class SymbolIllust(value: Array[Byte])
+object Symbol extends Entity {
+  case class Illust(value: Array[Byte])
+}

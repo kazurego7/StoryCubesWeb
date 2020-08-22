@@ -1,66 +1,53 @@
 package domains
 
-case class ActId(value: Long)
+trait InvariantActDiceFace {
 
-trait ActSymbolsGroup[T] {
-  val diceCount: Int
-  def validate(
-      constructor: Unit => T,
-      symbols: List[Symbol]
-  ): Either[Error, T] = {
-    if (symbols.length != diceCount) {
-      Left(Error.DiceCountOver)
-    } else {
-      Right(constructor(()))
-    }
-  }
+  val usedDiceCount: Int
+  val usingDiceCount: Int
+  val unusedDiceCount: Int
+  def validDiceCount(faces: List[Dice.Face]) =
+    faces.length == usedDiceCount && faces.length == usingDiceCount && faces.length == unusedDiceCount
 
-  sealed trait Error
-  object Error {
-    case object DiceCountOver extends Error
+  def validDiceNotDuplicated(
+      used: List[Dice.Face],
+      using: List[Dice.Face],
+      unused: List[Dice.Face]
+  ): Boolean = {
+    val diceIds = (using ++ used ++ unused).map(face => face.id)
+    diceIds.length == diceIds.distinct.length
   }
 }
 
-case class ActTitle(value: String)
+case class ActTitle(title: String)
 
 object ActTitle {
-  def apply(
-      value: String
-  ): Either[Error, ActTitle] = {
-    if (value.length > 20) {
-      Left(Error.OverMaxSize)
-    } else if (value.length < 1) {
-      Left(Error.UnderMinSize)
-    } else {
-      Right(new ActTitle(value))
-    }
-  }
+  val minSize: Int = 1
+  val maxSize: Int = 20
 
-  sealed trait Error
-  object Error {
-    case object OverMaxSize extends Error
-    case object UnderMinSize extends Error
+  def validWordCount(title: String): Boolean =
+    minSize <= title.length && title.length <= maxSize
+
+  def apply(
+      title: String
+  ): ActTitle = {
+    assert(validWordCount(title))
+    new ActTitle(title)
   }
 }
 
-case class ActSentence(value: String)
+case class ActSentence(sentence: String)
 
 object ActSentence {
-  def apply(
-      value: String
-  ): Either[Error, ActTitle] = {
-    if (value.length > 400) {
-      Left(Error.OverMaxSize)
-    } else if (value.length < 1) {
-      Left(Error.UnderMinSize)
-    } else {
-      Right(new ActTitle(value))
-    }
-  }
+  val minSize: Int = 1
+  val maxSize: Int = 20
 
-  sealed trait Error
-  object Error {
-    case object OverMaxSize extends Error
-    case object UnderMinSize extends Error
+  def validWordCount(sentence: String): Boolean =
+    minSize <= sentence.length && sentence.length <= maxSize
+
+  def apply(
+      title: String
+  ): ActTitle = {
+    assert(validWordCount(title))
+    new ActTitle(title)
   }
 }
