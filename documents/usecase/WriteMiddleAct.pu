@@ -9,7 +9,7 @@ rectangle WriteMiddleAct {
     user -- (writeSentence)
     user -- (addIllustration)    
     user -- (postAct)
-    (decideTitle) ..> (postAct) : include
+    (chooseDice) ..> (postAct) : include
     (writeSentence) ..> (postAct) : include
     (addIllustration) ..> (postAct) : include
 }
