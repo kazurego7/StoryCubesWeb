@@ -1,15 +1,16 @@
 package domains
 
-import utils._
+import utils.Entity
 
-case class FirstAct private (
+case class LastAct private (
     firstActId: FirstAct.Id,
+    middleActId: MiddleAct.Id,
+    lastActId: LastAct.Id,
     diceFaces: FirstAct.DiceFaces,
-    title: ActTitle,
     sentence: ActSentence
 )
 
-object FirstAct extends Entity {
+object LastAct extends Entity {
 
   case class DiceFaces private (
       used: List[Dice.Face],
@@ -18,9 +19,9 @@ object FirstAct extends Entity {
   )
 
   object DiceFaces extends InvariantActDiceFace {
-    val usedDiceCount: Int = 0
+    val usedDiceCount: Int = 6
     val usingDiceCount: Int = 3
-    val unusedDiceCount: Int = 6
+    val unusedDiceCount: Int = 0
     def apply(
         used: List[Dice.Face],
         using: List[Dice.Face],
