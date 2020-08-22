@@ -26,8 +26,8 @@ object MiddleAct extends Entity {
         using: List[Dice.Face],
         unused: List[Dice.Face]
     ): DiceFaces = {
-      assert(validDiceCount(used))
-      assert(validDiceNotDuplicated(using, used, unused))
+      assert(validDiceCount(used, using, unused))
+      assert(validDiceNotDuplicated(used, using, unused))
       new DiceFaces(used, using, unused)
     }
   }

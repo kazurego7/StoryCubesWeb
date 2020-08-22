@@ -5,8 +5,12 @@ trait InvariantActDiceFace {
   val usedDiceCount: Int
   val usingDiceCount: Int
   val unusedDiceCount: Int
-  def validDiceCount(faces: List[Dice.Face]) =
-    faces.length == usedDiceCount && faces.length == usingDiceCount && faces.length == unusedDiceCount
+  def validDiceCount(
+      used: List[Dice.Face],
+      using: List[Dice.Face],
+      unused: List[Dice.Face]
+  ) =
+    used.length == usedDiceCount && using.length == usingDiceCount && unused.length == unusedDiceCount
 
   def validDiceNotDuplicated(
       used: List[Dice.Face],
