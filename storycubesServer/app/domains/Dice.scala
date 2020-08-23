@@ -6,11 +6,12 @@ case class Dice private (
     id: Dice.Id,
     symbols: List[Symbol]
 ) {
-  def getFace(symbolIdInDice: Symbol.Id): Dice.Face = {
-    assert(Dice.Face.validSymbolIdInDice(this, symbolIdInDice))
+  assert(Dice.validFaceCount(symbols))
+  implicit val self = this
 
+  def getFace(symbolIdInDice: Symbol.Id): Dice.Face = {
     val symbol =
-      symbols.find(symbol => symbol.symbolId == symbolIdInDice).get;
+      symbols.find(symbol => symbol.id == symbolIdInDice).get;
     Dice.Face(id, symbol)
   }
 }
@@ -20,16 +21,16 @@ object Dice extends Entity {
   def validFaceCount(symbols: List[Symbol]): Boolean =
     symbols.length == faceCount
 
-  def apply(id: Dice.Id, symbols: List[Symbol]) = {
-    assert(validFaceCount(symbols))
-
-    new Dice(id, symbols)
+  case class Face private (
+      diceId: Dice.Id,
+      symbol: Symbol
+  )(implicit dice: Dice) {
+    assert(Dice.Face.validSymbolIdInDice(symbol.id))
   }
-
-  case class Face private (id: Id, symbol: Symbol)
-
   object Face {
-    def validSymbolIdInDice(dice: Dice, id: Symbol.Id): Boolean =
-      dice.symbols.map(symbol => symbol.symbolId).contains(id)
+    def validSymbolIdInDice(
+        symbolId: Symbol.Id
+    )(implicit dice: Dice): Boolean =
+      dice.symbols.map(symbol => symbol.id).contains(symbolId)
   }
 }

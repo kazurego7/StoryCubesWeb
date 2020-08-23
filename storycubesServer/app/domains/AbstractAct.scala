@@ -17,12 +17,14 @@ trait InvariantActDiceFace {
       using: List[Dice.Face],
       unused: List[Dice.Face]
   ): Boolean = {
-    val diceIds = (using ++ used ++ unused).map(face => face.id)
+    val diceIds = (using ++ used ++ unused).map(face => face.diceId)
     diceIds.length == diceIds.distinct.length
   }
 }
 
-case class ActTitle(title: String)
+case class ActTitle(title: String) {
+  assert(ActTitle.validWordCount(title))
+}
 
 object ActTitle {
   val minSize: Int = 1
@@ -30,16 +32,11 @@ object ActTitle {
 
   def validWordCount(title: String): Boolean =
     minSize <= title.length && title.length <= maxSize
-
-  def apply(
-      title: String
-  ): ActTitle = {
-    assert(validWordCount(title))
-    new ActTitle(title)
-  }
 }
 
-case class ActSentence(sentence: String)
+case class ActSentence(sentence: String) {
+  assert(ActSentence.validWordCount(sentence))
+}
 
 object ActSentence {
   val minSize: Int = 1
@@ -47,11 +44,4 @@ object ActSentence {
 
   def validWordCount(sentence: String): Boolean =
     minSize <= sentence.length && sentence.length <= maxSize
-
-  def apply(
-      title: String
-  ): ActTitle = {
-    assert(validWordCount(title))
-    new ActTitle(title)
-  }
 }

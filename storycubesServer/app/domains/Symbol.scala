@@ -3,7 +3,7 @@ package domains
 import utils._
 
 case class Symbol(
-    symbolId: Symbol.Id,
+    id: Symbol.Id,
     illust: Symbol.Illust
 )
 
