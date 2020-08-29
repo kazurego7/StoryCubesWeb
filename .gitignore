@@ -38,7 +38,7 @@ elm-stuff
 # elm-repl generated files
 repl-temp-*
 #elm generated
-/public/javascripts/main.js
+*/public/javascripts/main.js
 
 # vscode
 .vscode/*
