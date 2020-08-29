@@ -1,6 +1,6 @@
 package domains
 
-import utils.Entity
+import utils._
 
 case class LastAct private (
     firstActId: FirstAct.Id,
