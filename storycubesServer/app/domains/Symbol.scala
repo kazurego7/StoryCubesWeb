@@ -3,12 +3,12 @@ package domains
 import utils._
 
 case class Symbol(
-    id: Id[_],
+    id: Symbol.Id,
     illust: Symbol.Illust
-) extends Entity
+) extends Entity[Symbol.Id]
 
-object Symbol extends EntityFactory[SymbolRepository[_]] {
+object Symbol extends EntityFactory[Long] {
   case class Illust(value: Array[Byte])
 }
 
-trait SymbolRepository[X] extends IdCreator[X]
+trait SymbolRepository extends IdCreator[Symbol.Id]

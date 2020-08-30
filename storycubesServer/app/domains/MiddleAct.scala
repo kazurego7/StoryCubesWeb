@@ -3,13 +3,13 @@ package domains
 import utils._
 
 case class MiddleAct private (
-    id: Id[_],
-    firstActId: Id[_],
+    id: MiddleAct.Id,
+    firstActId: FirstAct.Id,
     diceFaces: FirstAct.DiceFaces,
     sentence: ActSentence
-) extends Entity
+) extends Entity[MiddleAct.Id]
 
-object MiddleAct extends EntityFactory[MiddleActRepository[_]] {
+object MiddleAct extends EntityFactory[Long] {
 
   case class DiceFaces private (
       used: List[Dice.Face],
@@ -27,4 +27,4 @@ object MiddleAct extends EntityFactory[MiddleActRepository[_]] {
   }
 }
 
-trait MiddleActRepository[X] extends IdCreator[X]
+trait MiddleActRepository extends IdCreator[MiddleAct.Id]

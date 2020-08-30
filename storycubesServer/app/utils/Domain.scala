@@ -1,20 +1,20 @@
 package utils
 
-abstract class Id[ValueType](value: ValueType)
+abstract class AbstractId[ValueType](value: ValueType)
 
-trait IdCreator[ValueType] {
-  case class ConcreteId private (value: ValueType) extends Id(value: ValueType)
-  def createId(): ConcreteId
+trait IdCreator[Id <: AbstractId[_]] {
+  def createId(): Id
 }
 
-trait EntityFactory[ConcreteIdCreator <: IdCreator[_]] {
+trait EntityFactory[ValueType] {
+  case class Id(value: ValueType) extends AbstractId(value: ValueType)
   def askCreateId()(implicit
-      idCreator: ConcreteIdCreator
-  ): idCreator.ConcreteId = {
+      idCreator: IdCreator[Id]
+  ): Id = {
     idCreator.createId()
   }
 }
 
-trait Entity {
-  val id: Id[_]
+trait Entity[Id <: AbstractId[_]] {
+  val id: Id
 }
