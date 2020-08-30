@@ -3,13 +3,13 @@ package domains
 import utils._
 
 case class FirstAct private (
-    firstActId: FirstAct.Id,
+    id: Id[_],
     diceFaces: FirstAct.DiceFaces,
     title: ActTitle,
     sentence: ActSentence
-)
+) extends Entity
 
-object FirstAct extends Entity {
+object FirstAct extends EntityFactory[FirstActRepository[_]] {
 
   case class DiceFaces private (
       used: List[Dice.Face],
@@ -26,3 +26,5 @@ object FirstAct extends Entity {
     val unusedDiceCount: Int = 6
   }
 }
+
+trait FirstActRepository[X] extends IdCreator[X]
