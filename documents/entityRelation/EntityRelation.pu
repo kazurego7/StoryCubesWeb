@@ -17,7 +17,7 @@ entity tbl_act_tree_paths{
 entity tbl_act {
     * id
     catalog_id
-    story_sentence
+    story_section
     story_illustration_url
 }
 

@@ -8,7 +8,7 @@
 
 ## writeFirstAct
 
-- sentence
+- section
   - 横書き
   - 字数制限1~400文字
   - 文字サイズと一文の文字数は読む媒体に依って変更(リフロー)
@@ -22,5 +22,5 @@
   - 選ぶのは3個
 - act
   - 以下が守られていなければpostActできない
-    - sentence の字数制限
+    - section の字数制限
     - title の字数制限

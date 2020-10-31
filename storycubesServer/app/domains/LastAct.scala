@@ -7,7 +7,7 @@ case class LastAct private (
     firstActId: FirstAct.Id,
     middleActId: MiddleAct.Id,
     diceFaces: FirstAct.DiceFaces,
-    sentence: ActSentence
+    section: ActSection
 ) extends Entity[LastAct.Id]
 
 object LastAct extends EntityFactory[Long] {

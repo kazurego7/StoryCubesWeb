@@ -34,11 +34,11 @@ object ActTitle {
     minSize <= title.length && title.length <= maxSize
 }
 
-case class ActSentence(sentence: String) {
-  assert(ActSentence.validWordCount(sentence))
+case class ActSection(sentence: String) {
+  assert(ActSection.validWordCount(sentence))
 }
 
-object ActSentence {
+object ActSection {
   val minSize: Int = 1
   val maxSize: Int = 20
 
