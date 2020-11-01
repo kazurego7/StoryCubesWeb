@@ -58,42 +58,23 @@ update msg model =
 story : SectionText -> Html msg
 story (SectionText sectionText) =
     let
-        sentence : String -> Html msg
-        sentence sentenceText =
+        actSentence : String -> Html msg
+        actSentence sentenceText =
             p [ class "is-family-monospace is-size-6 my-2", style "line-height" "2em", style "text-indent" "1em" ] [ text sentenceText ]
 
-        firstAct title sentenceTexts =
-            div [ class "card my-2" ]
-                [ header [ class "card-header" ]
-                    [ p [ class "card-header-title" ] [ text title ] ]
-                , section [ class "card-content" ]
-                    [ button [ class "delete" ] []
-                    , div [ class "content" ] (List.map sentence sentenceTexts)
-                    ]
-                ]
-
-        middleAct : List String -> Html msg
-        middleAct sentenceTexts =
+        actSection sentenceTexts =
             div [ class "card my-2" ]
                 [ section [ class "card-content" ]
-                    [ button [ class "delete" ] []
-                    , div [ class "content" ] (List.map sentence sentenceTexts)
-                    ]
-                ]
-
-        lastAct sentenceTexts =
-            div [ class "card my-2" ]
-                [ section [ class "card-content" ]
-                    [ button [ class "delete" ] []
-                    , div [ class "content" ] (List.map sentence sentenceTexts)
+                    [ div [ class "level is-mobile" ] [ div [ class "level-left" ] [], button [ class "delete level-right" ] [] ]
+                    , div [ class "content" ] (List.map actSentence sentenceTexts)
                     ]
                 ]
     in
-    div [ class "columns is-centered is-gapless" ]
+    div [ class "columns is-mobile is-centered is-gapless" ]
         [ div [ class "column", style "max-width" "35em" ]
-            [ firstAct sectionText.title sectionText.firstAct
-            , middleAct sectionText.middleAct
-            , lastAct sectionText.lastAct
+            [ actSection sectionText.firstAct
+            , actSection sectionText.middleAct
+            , actSection sectionText.lastAct
             ]
         ]
 
