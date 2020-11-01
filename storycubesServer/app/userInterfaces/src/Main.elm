@@ -9,7 +9,7 @@ module Main exposing (..)
 import Array exposing (Array)
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (class, style)
+import Html.Attributes exposing (class, src, style)
 import Html.Events exposing (..)
 import Platform.Cmd exposing (none)
 
@@ -58,23 +58,42 @@ update msg model =
 story : SectionText -> Html msg
 story (SectionText sectionText) =
     let
+        diceImages count =
+            List.repeat count
+                (span [ class "icon is-large" ]
+                    [ span [ class "fa-stack fa-lg" ]
+                        [ i [ class "far fa-stack-2x fa-square" ] []
+                        , i [ class "fas fa-stack-1x fa-home" ] []
+                        ]
+                    ]
+                )
+
+        diceImage =
+            span [ class "icon is-large" ]
+                [ span [ class "fa-stack fa-lg" ]
+                    [ i [ class "far fa-stack-2x fa-square" ] []
+                    , i [ class "fas fa-stack-1x fa-home" ] []
+                    ]
+                ]
+
         actSentence : String -> Html msg
         actSentence sentenceText =
             p [ class "is-family-monospace is-size-6 my-2", style "line-height" "2em", style "text-indent" "1em" ] [ text sentenceText ]
 
-        actSection sentenceTexts =
-            div [ class "card my-2" ]
-                [ section [ class "card-content" ]
-                    [ div [ class "level is-mobile" ] [ div [ class "level-left" ] [], button [ class "delete level-right" ] [] ]
-                    , div [ class "content" ] (List.map actSentence sentenceTexts)
+        actSection sentenceTexts diceCount =
+            article [ class "box my-1" ]
+                [ div [ class "level is-mobile" ]
+                    [ div [ class "level-left" ] (diceImages diceCount)
+                    , div [ class "level-right" ] [ button [ class "delete" ] [] ]
                     ]
+                , section [ class "content" ] (List.map actSentence sentenceTexts)
                 ]
     in
     div [ class "columns is-mobile is-centered is-gapless" ]
-        [ div [ class "column", style "max-width" "35em" ]
-            [ actSection sectionText.firstAct
-            , actSection sectionText.middleAct
-            , actSection sectionText.lastAct
+        [ article [ class "column", style "max-width" "35em" ]
+            [ actSection sectionText.firstAct 3
+            , actSection sectionText.middleAct 3
+            , actSection sectionText.lastAct 3
             ]
         ]
 
