@@ -84,9 +84,20 @@ story (SectionText sectionText) =
             article [ class "box my-1" ]
                 [ div [ class "level is-mobile" ]
                     [ div [ class "level-left" ] (diceImages diceCount)
-                    , div [ class "level-right" ] [ button [ class "delete" ] [] ]
+                    , div [ class "level-right" ] [ button [ class "delete is-medium" ] [] ]
                     ]
                 , section [ class "content" ] (List.map actSentence sentenceTexts)
+                , addActButton
+                ]
+
+        addActButton =
+            div [ class "has-text-centered" ]
+                [ span [ class "icon is-small" ]
+                    [ span [ class "fa-stack" ]
+                        [ i [ class "fas fa-stack-2x fa-circle" ] []
+                        , i [ class "fas fa-stack fa-search fa-inverse" ] []
+                        ]
+                    ]
                 ]
     in
     div [ class "columns is-mobile is-centered is-gapless" ]
@@ -94,6 +105,8 @@ story (SectionText sectionText) =
             [ actSection sectionText.firstAct 3
             , actSection sectionText.middleAct 3
             , actSection sectionText.lastAct 3
+            , div [ class "box", style "height" "40vh", style "overflow-y" "scroll" ]
+                (List.repeat 15 (div [ class "box" ] [ text "okokokokko" ]))
             ]
         ]
 
